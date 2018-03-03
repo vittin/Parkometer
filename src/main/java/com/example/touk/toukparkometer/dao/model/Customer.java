@@ -6,6 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
 @Entity
@@ -19,12 +20,12 @@ public class Customer {
     protected Customer() {
     }
 
-    public Customer(String identity) {
-        this.identity = identity;
+    public Customer(@NotNull String identity) {
+        this.identity = identity.toUpperCase();
         this.type = CustomerType.REGULAR;
     }
 
-    public Customer(String identity, CustomerType type) {
+    public Customer(@NotNull String identity, @NotNull CustomerType type) {
         this.identity = identity;
         this.type = type;
     }

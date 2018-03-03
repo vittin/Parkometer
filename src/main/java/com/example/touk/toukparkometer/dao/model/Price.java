@@ -1,8 +1,9 @@
-package com.example.touk.toukparkometer.dao.model.helper;
+package com.example.touk.toukparkometer.dao.model;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.validation.constraints.NotNull;
 import java.util.Currency;
 import java.util.Objects;
 
@@ -11,19 +12,22 @@ public class Price {
     @GeneratedValue
     @Id
     private long id;
+    @NotNull
     private Currency currency;
+    @NotNull
     private Double value;
+    @NotNull
     private boolean paid;
 
     protected Price(){}
 
-    public Price(Currency paymentCurrency, Double value) {
+    public Price(@NotNull Double value, @NotNull Currency paymentCurrency) {
         this.currency = paymentCurrency;
         this.value = value;
         this.paid = false;
     }
 
-    public Price(Currency paymentCurrency, Integer value) {
+    public Price(@NotNull Integer value, @NotNull Currency paymentCurrency) {
         this.currency = paymentCurrency;
         this.value = new Double(value);
         this.paid = false;

@@ -2,10 +2,12 @@ package com.example.touk.toukparkometer.client;
 
 import com.example.touk.toukparkometer.dao.model.Customer;
 import com.example.touk.toukparkometer.dao.model.ParkEvent;
-import com.example.touk.toukparkometer.dao.model.helper.Price;
+import com.example.touk.toukparkometer.dao.model.Price;
+import org.springframework.stereotype.Service;
 
 import java.util.Currency;
 
+@Service
 public class ParkingMeterCustomerServiceImpl implements ParkingMeterCustomerService {
     @Override
     public ParkEvent start(Customer customer) {

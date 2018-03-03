@@ -1,7 +1,5 @@
 package com.example.touk.toukparkometer.dao.model;
 
-import com.example.touk.toukparkometer.dao.model.helper.Price;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
@@ -25,12 +23,12 @@ public class ParkEvent {
 
     protected ParkEvent(){}
 
-    public ParkEvent(Customer customer, LocalDateTime startDate) {
+    public ParkEvent(@NotNull Customer customer, LocalDateTime startDate) {
         this.customer = customer;
         this.startDate = startDate;
     }
 
-    public ParkEvent(Customer customer, LocalDateTime startDate, LocalDateTime endDate, Price price) {
+    public ParkEvent(@NotNull Customer customer, LocalDateTime startDate, LocalDateTime endDate, Price price) {
         this(customer, startDate);
         this.endDate = endDate;
         this.price = price;

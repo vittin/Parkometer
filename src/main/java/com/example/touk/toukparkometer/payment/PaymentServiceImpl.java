@@ -4,7 +4,7 @@ import com.example.touk.toukparkometer.dao.ParkEventRepository;
 import com.example.touk.toukparkometer.dao.model.Customer;
 import com.example.touk.toukparkometer.dao.model.ParkEvent;
 import com.example.touk.toukparkometer.dao.model.helper.CustomerType;
-import com.example.touk.toukparkometer.dao.model.helper.Price;
+import com.example.touk.toukparkometer.dao.model.Price;
 import com.example.touk.toukparkometer.time.TimeProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,7 +30,7 @@ public class PaymentServiceImpl implements PaymentService {
     @Override
     public boolean charge(ParkEvent event, Currency currency) {
         double priceValue = calculatePrice(event, currency);
-        Price price = new Price(currency, priceValue);
+        Price price = new Price(priceValue, currency);
         event.setPrice(price);
         if (chargeClient(event.getCustomer(), price)){
             event.getPrice().markPaid();
