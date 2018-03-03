@@ -15,7 +15,7 @@ public class Price {
     private Double value;
     private boolean paid;
 
-    public Price(){}
+    protected Price(){}
 
     public Price(Currency paymentCurrency, Double value) {
         this.currency = paymentCurrency;

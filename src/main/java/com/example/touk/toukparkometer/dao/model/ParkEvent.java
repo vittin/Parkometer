@@ -23,7 +23,7 @@ public class ParkEvent {
     @ManyToOne(cascade = CascadeType.PERSIST, targetEntity = Price.class)
     private Price price;
 
-    ParkEvent(){}
+    protected ParkEvent(){}
 
     public ParkEvent(Customer customer, LocalDateTime startDate) {
         this.customer = customer;

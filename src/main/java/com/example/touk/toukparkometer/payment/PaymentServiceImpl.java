@@ -5,6 +5,7 @@ import com.example.touk.toukparkometer.dao.model.Customer;
 import com.example.touk.toukparkometer.dao.model.ParkEvent;
 import com.example.touk.toukparkometer.dao.model.helper.CustomerType;
 import com.example.touk.toukparkometer.dao.model.helper.Price;
+import com.example.touk.toukparkometer.time.TimeProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,10 +19,12 @@ import java.util.Currency;
 public class PaymentServiceImpl implements PaymentService {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private final ParkEventRepository parkEventRepository;
+    private final TimeProvider timeProvider;
 
     @Autowired
-    public PaymentServiceImpl(ParkEventRepository parkEventRepository) {
+    public PaymentServiceImpl(ParkEventRepository parkEventRepository, TimeProvider timeProvider) {
         this.parkEventRepository = parkEventRepository;
+        this.timeProvider = timeProvider;
     }
 
     @Override
@@ -31,6 +34,7 @@ public class PaymentServiceImpl implements PaymentService {
         event.setPrice(price);
         if (chargeClient(event.getCustomer(), price)){
             event.getPrice().markPaid();
+            event.setEndDate(timeProvider.localTime());
             parkEventRepository.saveAndFlush(event);
             return true;
         }

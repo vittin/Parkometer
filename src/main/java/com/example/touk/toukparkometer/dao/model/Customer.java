@@ -16,6 +16,9 @@ public class Customer {
 
     private CustomerType type;
 
+    protected Customer() {
+    }
+
     public Customer(String identity) {
         this.identity = identity;
         this.type = CustomerType.REGULAR;

@@ -3,14 +3,12 @@ package com.example.touk.toukparkometer.payment;
 import com.example.touk.toukparkometer.dao.model.Customer;
 import com.example.touk.toukparkometer.dao.model.ParkEvent;
 import com.example.touk.toukparkometer.dao.model.helper.CustomerType;
+import com.example.touk.toukparkometer.time.TimeProviderImpl;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 import java.util.Currency;
 
@@ -18,18 +16,15 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.number.IsCloseTo.closeTo;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest
-public class PaymentServiceImplTest {
+public class PaymentServiceCalculatePriceTest {
 
-    @Autowired
     private PaymentService paymentService;
-
     private Customer regularCustomer;
     private Customer vipCustomer;
     
     @Before
     public void setUp() {
+        paymentService = new PaymentServiceImpl(null, new TimeProviderImpl(ZoneId.of("+1")));
         regularCustomer = new Customer("KRK 7877");
         vipCustomer = new Customer("WAW 1337", CustomerType.VIP);
     }
