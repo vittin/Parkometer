@@ -31,7 +31,7 @@ public class PaymentServiceImplTest {
     @Before
     public void setUp() {
         regularCustomer = new Customer("KRK 7877");
-        regularCustomer = new Customer("WAW 1337", CustomerType.VIP);
+        vipCustomer = new Customer("WAW 1337", CustomerType.VIP);
     }
 
     @Test

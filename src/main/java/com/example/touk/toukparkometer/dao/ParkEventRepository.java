@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public interface TransactionRepository extends JpaRepository<ParkEvent, Long> {
+public interface ParkEventRepository extends JpaRepository<ParkEvent, Long> {
     List<ParkEvent> findAllByEndDateIsBetweenAndPriceIsNotNull(LocalDateTime startOfDay, LocalDateTime endOfDay);
     ParkEvent findFirstByEndDateIsNull();
 }
