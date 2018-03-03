@@ -8,7 +8,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.time.LocalDateTime;
-import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.time.temporal.ChronoUnit;
 import java.util.Currency;
 
@@ -24,7 +24,7 @@ public class PaymentServiceCalculatePriceTest {
     
     @Before
     public void setUp() {
-        paymentService = new PaymentServiceImpl(null, new TimeProviderImpl(ZoneId.of("+1")));
+        paymentService = new PaymentServiceImpl(null, new TimeProviderImpl(ZoneOffset.of("+1")));
         regularCustomer = new Customer("KRK 7877");
         vipCustomer = new Customer("WAW 1337", CustomerType.VIP);
     }
