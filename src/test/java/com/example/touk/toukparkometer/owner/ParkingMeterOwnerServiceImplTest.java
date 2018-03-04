@@ -13,7 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.time.*;
+import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
 import java.util.Currency;
@@ -21,9 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 import static org.hamcrest.Matchers.*;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.nullValue;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertThat;
 import static org.mockito.BDDMockito.given;
 
 @RunWith(SpringRunner.class)
@@ -72,19 +70,19 @@ public class ParkingMeterOwnerServiceImplTest {
     @Test
     public void given_event_when_getCashSummary_shouldReturnCash() {
         //given
-        given(parkRepository.findByEndDateIsBetween(timeNow.toLocalDate().atStartOfDay(), timeNow)) //simulate full day
+        given(parkRepository.findParkEventsFinishedAt(timeNow.toLocalDate())) //simulate full day
                 .willReturn(exampleDay.subList(0,1));
         //when
         Map<Currency, Double> cashSummary = parkingMeterOwnerService.cashSummary(timeNow.toLocalDate());
         //then
         assertThat(cashSummary, is(not(nullValue())));
-        assertThat(cashSummary, hasEntry(Currency.getInstance("PLN"), closeTo(20.0, 0.0001)));
+        assertThat(cashSummary, hasEntry(is(Currency.getInstance("PLN")), is(closeTo(20.0, 0.0001))));
     }
 
     @Test
     public void given_multipleEvents_when_getCashSummaryWithCurrency_shouldReturnCash() {
         //given
-        given(parkRepository.findByEndDateIsBetween(timeNow.toLocalDate().atStartOfDay(), timeNow)) //simulate full day
+        given(parkRepository.findParkEventsFinishedAt(timeNow.toLocalDate())) //simulate full day/simulate full day
                 .willReturn(exampleDay);
         //when
         Double cashSummary = parkingMeterOwnerService.cashSummary(timeNow.toLocalDate(), c1PLNPrice.getCurrency());
@@ -97,13 +95,13 @@ public class ParkingMeterOwnerServiceImplTest {
     @Test
     public void given_multipleEvents_when_getCashSummary_shouldReturnSummaryCash() {
         //given
-        given(parkRepository.findByEndDateIsBetween(timeNow.toLocalDate().atStartOfDay(), timeNow)) //simulate full day
-                .willReturn(exampleDay.subList(0,1));
+        given(parkRepository.findParkEventsFinishedAt(timeNow.toLocalDate())) //simulate full day //simulate full day
+                .willReturn(exampleDay);
         //when
         Map<Currency, Double> cashSummary = parkingMeterOwnerService.cashSummary(timeNow.toLocalDate());
         //then
         assertThat(cashSummary, is(not(nullValue())));
-        assertThat(cashSummary, hasEntry(Currency.getInstance("PLN"), closeTo(40.0, 0.0001)));
-        assertThat(cashSummary, hasEntry(Currency.getInstance("USD"), closeTo(7.0, 0.0001)));
+        assertThat(cashSummary, hasEntry(is(Currency.getInstance("PLN")), is(closeTo(40.0, 0.0001))));
+        assertThat(cashSummary, hasEntry(is(Currency.getInstance("USD")), is(closeTo(7.0, 0.0001))));
     }
 }

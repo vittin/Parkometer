@@ -3,6 +3,7 @@ package com.example.touk.toukparkometer.dao;
 
 import com.example.touk.toukparkometer.dao.model.ParkEvent;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -10,6 +11,7 @@ import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 
+@Repository
 public interface ParkEventRepository extends JpaRepository<ParkEvent, Long> {
     ParkEvent findByCustomerIdentity(String customerIdentity);
 
