@@ -10,10 +10,11 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface ParkEventRepository extends JpaRepository<ParkEvent, Long> {
-    ParkEvent findByCustomerIdentity(String customerIdentity);
+    Optional<ParkEvent> findByCustomerIdentity(String customerIdentity);
 
     List<ParkEvent> findByEndDateIsBetween(LocalDateTime startDay, LocalDateTime endDay);
 

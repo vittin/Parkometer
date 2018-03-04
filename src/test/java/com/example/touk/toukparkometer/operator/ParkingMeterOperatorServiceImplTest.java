@@ -34,7 +34,7 @@ public class ParkingMeterOperatorServiceImplTest {
     public void setUp() throws Exception {
         exampleCustomer = new Customer("test1");
         exampleEvent = new ParkEvent(exampleCustomer, LocalDateTime.of(2018,1,1,22,34));
-        given(parkEventRepository.findByCustomerIdentity("test1")).willReturn(exampleEvent);
+        given(parkEventRepository.findByCustomerIdentity("test1")).willReturn(Optional.of(exampleEvent));
     }
 
     @Test

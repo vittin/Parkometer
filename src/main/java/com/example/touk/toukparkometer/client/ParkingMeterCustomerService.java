@@ -5,6 +5,7 @@ import com.example.touk.toukparkometer.dao.model.ParkEvent;
 import com.example.touk.toukparkometer.dao.model.Price;
 
 import java.util.Currency;
+import java.util.Optional;
 
 public interface ParkingMeterCustomerService {
     /**
@@ -26,13 +27,13 @@ public interface ParkingMeterCustomerService {
      * @param customer is unique user which want to perform operation
      * @return parkEvent model
      */
-    ParkEvent stop(Customer customer);
+    Optional<ParkEvent> stop(Customer customer);
 
     /**
      * @param customer is unique user which want to perform operation
      * @return duty for parked place. Using default 'PLN' currency.
      */
-    Price checkFee(Customer customer);
+    Optional<Price> checkFee(Customer customer);
 
     /**
      *
@@ -40,5 +41,5 @@ public interface ParkingMeterCustomerService {
      * @param currency is one of available payment methods. Actually supported only 'PLN' as a currency
      * @return duty for all parked places, grouped by given currency
      */
-    Price checkFee(Customer customer, Currency currency);
+    Optional<Price> checkFee(Customer customer, Currency currency);
 }

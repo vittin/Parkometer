@@ -17,6 +17,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.Currency;
+import java.util.Optional;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
@@ -49,10 +50,10 @@ public class ParkingMeterCustomerServiceImplTest {
         given(parkEventRepository.save(any(ParkEvent.class))).willAnswer(a -> a.getArgument(0));
         //always find someone
         given(parkEventRepository.findByCustomerIdentity(anyString())).willAnswer(a ->
-                new ParkEvent(
+                Optional.of(new ParkEvent(
                         new Customer(a.getArgument(0)),
                         LocalDateTime.now().minus(2, ChronoUnit.HOURS)
-                )
+                ))
         );
         //always find someone
         given(parkEventRepository.getOne(anyLong())).willAnswer(a ->
@@ -76,31 +77,34 @@ public class ParkingMeterCustomerServiceImplTest {
     @Test
     public void when_stopParking_then_updateParkEvent() {
 
-        ParkEvent parkEvent = parkingMeterCustomerService.stop(customer);
+        Optional<ParkEvent> parkEvent = parkingMeterCustomerService.stop(customer);
 
         verify(parkEventRepository).save(any(ParkEvent.class));
         assertThat(parkEvent, is(not(nullValue())));
-        assertThat(parkEvent.getCustomer(), is(customer));
+        assertTrue(parkEvent.isPresent());
+        assertThat(parkEvent.get().getCustomer(), is(customer));
     }
 
     @Test
     public void when_checkFee_then_returnPrice() {
-        Price price = parkingMeterCustomerService.checkFee(customer);
+        Optional<Price> price = parkingMeterCustomerService.checkFee(customer);
 
         verify(parkEventRepository).findByCustomerIdentity(anyString());
         assertThat(price, is(not(nullValue())));
-        assertThat(price.getValue(), is(greaterThan(0.0)));
+        assertTrue(price.isPresent());
+        assertThat(price.get().getValue(), is(greaterThan(0.0)));
     }
 
     @Test
     public void when_checkFeeWithSpecifiedCurrency_then_returnPriceInThisCurrency() {
         Currency currency = Currency.getInstance("USD");
-        Price price = parkingMeterCustomerService.checkFee(customer, currency);
+        Optional<Price> price = parkingMeterCustomerService.checkFee(customer, currency);
 
         verify(parkEventRepository).findByCustomerIdentity(anyString());
         assertThat(price, is(not(nullValue())));
-        assertThat(price.getValue(), is(greaterThan(0.0)));
-        assertThat(price.getCurrency(), is(currency));
+        assertTrue(price.isPresent());
+        assertThat(price.get().getValue(), is(greaterThan(0.0)));
+        assertThat(price.get().getCurrency(), is(currency));
     }
 
     @Test

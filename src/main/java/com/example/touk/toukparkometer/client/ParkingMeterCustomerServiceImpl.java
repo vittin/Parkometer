@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import javax.swing.text.html.Option;
 import java.util.Currency;
 import java.util.Optional;
 
@@ -40,30 +41,30 @@ public class ParkingMeterCustomerServiceImpl implements ParkingMeterCustomerServ
 
     @Override
     public boolean makePayment(Customer customer, Currency currency) {
-        ParkEvent parkEvent = parkEventRepository.findByCustomerIdentity(customer.getIdentity());
-        return paymentService.charge(parkEvent, currency);
+        Optional<ParkEvent> parkEvent = parkEventRepository.findByCustomerIdentity(customer.getIdentity());
+        return !parkEvent.isPresent() || paymentService.charge(parkEvent.get(), currency);
     }
 
     @Override
-    public ParkEvent stop(Customer customer) {
-        ParkEvent parkEvent = parkEventRepository.findByCustomerIdentity(customer.getIdentity());
-        if (!isPricePaid(parkEvent)) {
+    public Optional<ParkEvent> stop(Customer customer) {
+        Optional<ParkEvent> parkEvent = parkEventRepository.findByCustomerIdentity(customer.getIdentity());
+        if (parkEvent.isPresent() && !isPricePaid(parkEvent.get())) {
             //assuming that its always true and never throw any exception
-            paymentService.charge(parkEvent, Currency.getInstance(defaultCurrencyCode));
+            paymentService.charge(parkEvent.get(), Currency.getInstance(defaultCurrencyCode));
         }
         return parkEvent;
     }
 
     @Override
-    public Price checkFee(Customer customer) {
+    public Optional<Price> checkFee(Customer customer) {
         Currency currency = Currency.getInstance(defaultCurrencyCode);
         return checkFee(customer, currency);
     }
 
     @Override
-    public Price checkFee(Customer customer, Currency currency) {
-        ParkEvent parkEvent = parkEventRepository.findByCustomerIdentity(customer.getIdentity());
-        return new Price(paymentService.calculatePrice(parkEvent, currency), currency);
+    public Optional<Price> checkFee(Customer customer, Currency currency) {
+        Optional<ParkEvent> parkEvent = parkEventRepository.findByCustomerIdentity(customer.getIdentity());
+        return parkEvent.map(e -> new Price(paymentService.calculatePrice(e, currency), currency));
     }
 
     private boolean isPricePaid(ParkEvent parkEvent) {

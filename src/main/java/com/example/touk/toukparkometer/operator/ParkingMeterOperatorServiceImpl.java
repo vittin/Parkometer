@@ -17,7 +17,6 @@ public class ParkingMeterOperatorServiceImpl implements ParkingMeterOperatorServ
 
     @Override
     public Optional<ParkEvent> parkInfo(String customerIdentity) {
-        ParkEvent parkEvent = parkEventRepository.findByCustomerIdentity(customerIdentity);
-        return Optional.ofNullable(parkEvent);
+        return parkEventRepository.findByCustomerIdentity(customerIdentity);
     }
 }

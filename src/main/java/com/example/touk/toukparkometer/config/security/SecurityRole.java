@@ -1,4 +1,4 @@
-package com.example.touk.toukparkometer.config.config.security;
+package com.example.touk.toukparkometer.config.security;
 
 public enum SecurityRole {
     USER, OPERATOR, OWNER;

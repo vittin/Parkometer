@@ -1,4 +1,4 @@
-package com.example.touk.toukparkometer.config.config.security;
+package com.example.touk.toukparkometer.config.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
