@@ -46,7 +46,7 @@ public class ParkingMeterOperatorServiceImplTest {
         //then
         assertThat(parkEvent, is(not(nullValue())));
         assertTrue(parkEvent.isPresent());
-        assertThat(parkEvent.get(), is(parkEvent));
+        assertThat(parkEvent.get(), is(exampleEvent));
     }
 
     @Test
