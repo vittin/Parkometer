@@ -35,7 +35,7 @@ public class PaymentServiceImpl implements PaymentService {
         if (chargeClient(event.getCustomer(), price)){
             event.getPrice().markPaid();
             event.setEndDate(timeProvider.localTime());
-            parkEventRepository.saveAndFlush(event);
+            parkEventRepository.save(event);
             return true;
         }
         return false;

@@ -12,23 +12,25 @@ public class ParkEvent {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
     @NotNull
-    @ManyToOne(cascade = CascadeType.PERSIST, targetEntity = Customer.class)
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "customer_id")
     private Customer customer;
     @NotNull
     private LocalDateTime startDate;
     @OrderColumn
     private LocalDateTime endDate;
-    @ManyToOne(cascade = CascadeType.PERSIST, targetEntity = Price.class)
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "price_id")
     private Price price;
 
     protected ParkEvent(){}
 
-    public ParkEvent(@NotNull Customer customer, LocalDateTime startDate) {
+    public ParkEvent(@NotNull Customer customer, @NotNull LocalDateTime startDate) {
         this.customer = customer;
         this.startDate = startDate;
     }
 
-    public ParkEvent(@NotNull Customer customer, LocalDateTime startDate, LocalDateTime endDate, Price price) {
+    public ParkEvent(@NotNull Customer customer, @NotNull LocalDateTime startDate, LocalDateTime endDate, Price price) {
         this(customer, startDate);
         this.endDate = endDate;
         this.price = price;
@@ -73,6 +75,7 @@ public class ParkEvent {
     public void setPrice(Price price) {
         this.price = price;
     }
+
 
     @Override
     public boolean equals(Object o) {

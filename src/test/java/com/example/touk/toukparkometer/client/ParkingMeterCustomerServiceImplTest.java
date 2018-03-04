@@ -104,7 +104,7 @@ public class ParkingMeterCustomerServiceImplTest {
     }
 
     @Test
-    public void when_makePayment_then_xxx() {
+    public void when_makePayment_then_paymentPass() {
         Currency currency = Currency.getInstance("PLN");
         boolean paymentSuccess = parkingMeterCustomerService.makePayment(customer, currency);
 

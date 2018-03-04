@@ -11,10 +11,14 @@ import java.util.Objects;
 
 @Entity
 public class Customer {
-    @Column(unique = true, nullable = false)
-    @Id
-    private String identity;
 
+    @Id
+    @GeneratedValue
+    private long id;
+
+    @Column(unique = true, nullable = false)
+    private String identity;
+    @NotNull
     private CustomerType type;
 
     protected Customer() {
@@ -28,6 +32,14 @@ public class Customer {
     public Customer(@NotNull String identity, @NotNull CustomerType type) {
         this.identity = identity;
         this.type = type;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getIdentity() {
@@ -64,7 +76,7 @@ public class Customer {
     @Override
     public String toString() {
         return "Customer{" +
-                ", identity='" + identity + '\'' +
+                "identity='" + identity + '\'' +
                 ", type=" + type +
                 '}';
     }
